@@ -1,4 +1,5 @@
-require('dotenv').config();
+// 使用 override: true 让 .env 文件优先于系统环境变量
+require('dotenv').config({ override: true });
 
 const NewsService = require('./newsService');
 const AIService = require('./aiService');
@@ -18,17 +19,34 @@ class AutoPushApp {
         this.isServiceMode = options.serviceMode || false;
         
         // 配置AI服务
-        if (process.env.YUANBAO_TOKEN && process.env.YUANBAO_USER_ID) {
-            this.aiService.setToken(process.env.YUANBAO_TOKEN);
-            this.aiService.setUserId(process.env.YUANBAO_USER_ID);
+        const aiProvider = process.env.AI_PROVIDER || 'yuanbao';
+
+        if (aiProvider === 'openai') {
+            // 使用OpenAI时，检查OPENAI_API_KEY
+            if (!process.env.OPENAI_API_KEY) {
+                const message = '错误: 请设置环境变量 OPENAI_API_KEY 或在.env文件中配置';
+                if (this.isServiceMode) {
+                    logger.error(message);
+                    throw new Error(message);
+                } else {
+                    console.error(message);
+                    process.exit(1);
+                }
+            }
         } else {
-            const message = '错误: 请在.env文件中配置YUANBAO_TOKEN和YUANBAO_USER_ID';
-            if (this.isServiceMode) {
-                logger.error(message);
-                throw new Error(message);
+            // 使用元宝AI时，检查元宝配置
+            if (process.env.YUANBAO_TOKEN && process.env.YUANBAO_USER_ID) {
+                this.aiService.setToken(process.env.YUANBAO_TOKEN);
+                this.aiService.setUserId(process.env.YUANBAO_USER_ID);
             } else {
-                console.error(message);
-                process.exit(1);
+                const message = '错误: 请在.env文件中配置YUANBAO_TOKEN和YUANBAO_USER_ID';
+                if (this.isServiceMode) {
+                    logger.error(message);
+                    throw new Error(message);
+                } else {
+                    console.error(message);
+                    process.exit(1);
+                }
             }
         }
         

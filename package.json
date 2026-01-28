@@ -8,6 +8,8 @@
     "dev": "NODE_ENV=development node src/index.js",
     "help": "node src/index.js --help",
     "config": "node src/index.js --config",
+    "api": "node src/apiServer.js",
+    "api:dev": "NODE_ENV=development node src/apiServer.js",
     "daemon": "node src/daemon.js",
     "daemon:start": "node src/daemon.js start",
     "daemon:stop": "node src/daemon.js stop",
@@ -36,12 +38,19 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
+    "@google/genai": "^1.22.0",
+    "@vitalets/google-translate-api": "^9.2.1",
     "axios": "^1.12.2",
     "dotenv": "^17.2.2",
+    "express": "^4.21.2",
     "form-data": "^4.0.4",
     "marked": "^16.3.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.15.3",
     "node-cron": "^4.2.1",
     "pm2": "^6.0.13",
+    "sharp": "^0.34.4",
+    "tencentcloud-sdk-nodejs-ocr": "^4.1.132",
     "winston": "^3.17.0"
   }
 }

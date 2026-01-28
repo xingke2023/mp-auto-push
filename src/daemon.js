@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-require('dotenv').config();
+// 使用 override: true 让 .env 文件优先于系统环境变量
+require('dotenv').config({ override: true });
 const Scheduler = require('./scheduler');
 const { logger } = require('./logger');
 

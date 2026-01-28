@@ -28,3 +28,7 @@ Thumbs.db
 # 临时文件
 *.tmp
 *.temp
+
+# 第三方依赖仓库
+free-google-translate/
+google-translate-api/*.log
